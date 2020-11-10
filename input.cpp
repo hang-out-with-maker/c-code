@@ -13,7 +13,6 @@ void copy(int a, int b){	//b 보드에 a보드를 복사함
 			board[b][i][j] = board[a][i][j]; 
 		}
 	}
-	return 0;
 }
 void title(){ //타이틀
   ma++;
