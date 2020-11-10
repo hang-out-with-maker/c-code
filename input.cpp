@@ -1,9 +1,10 @@
 #include<bits/stdc++.h>
 using namespace std;
 int board[4][4]={},cnt=1,ma=0;
-int main();
-int title();
-int title(){ //타이틀
+
+void input();
+
+void title(){ //타이틀
   ma++;
   system("cls");
   puts("Tic-Tac-Toe");
@@ -12,13 +13,14 @@ int title(){ //타이틀
   while(1){
   	cin >> a;
   	if(a==1){
-    	main();
+    	input();
   	}
     else if(a==2) exit(0);
   	else cout << "잘못된 입력입니다. 다시 입력해주세요 : " ;
   }
 }
-int re(){ //다시하기 입력받는 함수
+
+void re(){ //다시하기 입력받는 함수
 	char a;
 	while(1){
 	cin >> a;
@@ -34,7 +36,7 @@ int re(){ //다시하기 입력받는 함수
 			}
 		}
 		cnt=1;
-		return 0;
+		return ;
 	}
 	else if(a=='N'||a=='n'){
 		exit(0);
@@ -42,8 +44,9 @@ int re(){ //다시하기 입력받는 함수
 	else cout << "잘못된 입력입니다. 다시 입력해주세요: ";
 	}
 }
-int main(){
-  if(ma==0) title();
+
+void input(){
+	if(ma==0) title();
   system("cls");
 	int k=0,t=1,cnt1=0,x,y;
 	puts("0 1 2 3");
@@ -122,4 +125,7 @@ int main(){
 		t=1,k=0;
 	cnt ++;
 	}
+}
+int main(){
+  	input();
 }
