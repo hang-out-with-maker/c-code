@@ -1,9 +1,20 @@
 #include<bits/stdc++.h>
 using namespace std;
-int board[4][4]={},cnt=1,ma=0;
+int dx[9] = {1, 1, 1, 2, 2, 2, 3, 3, 3};
+int dy[9] = {1, 2, 3, 1, 2, 3, 1, 2, 3};
+int board[800][4][4]={},cnt=1,ma=0, score[800];
 
 void input();
 
+void copy(int a, int b){	//b 보드에 a보드를 복사함  
+	int i, j;
+	for(i = 1; i <= 3; i++){
+		for(j = 1; j<= 3;j++){
+			board[b][i][j] = board[a][i][j]; 
+		}
+	}
+	return 0;
+}
 void title(){ //타이틀
   ma++;
   system("cls");
@@ -102,7 +113,27 @@ void input(){
 			if(x<0||x>3||y<0||y>3||board[y][x]!=0) cout << "잘못된 입력입니다. 다시 입력해주세요: ";
 			else break;
 		}
-		if(cnt%2!=0) board[y][x]=1; //player1 착수
+		if(cnt%2!=0){
+			board[0][y][x]=1; //player1 착수, board[0]은 루트노드 
+			for(int i = 1; i <= 9; i++){		//경우의 수 트리에 저장 
+				copy(0, i); 
+				if(board[i][dx[i]][dy[i]] != 0){		//이미 돌이 있는 경우 
+					score[i] = -1;	//나중에 점수 계산(미니맥스 알고리즘)을 사용할때 논외로 빼놓기 위함	
+				}
+				else{
+					board[i][dx[i]][dy[i]] = 2;
+				} 
+				for(int j = 1; j <= 9; j++){
+					copy(i, i*9+j);
+					if(board[i*9+i][dx[j]][dy[j]] != 0){		//이미 돌이 있는 경우 
+						score[i*9+j] = -1;	//나중에 점수 계산(미니맥스 알고리즘)을 사용할때 논외로 빼놓기 위함	
+					}
+					else{
+						board[i*9+j][dx[j]][dy[j]] = 1;
+					}
+				}
+			}	
+		}
 		else board[y][x]=2;         //player2 착수
 		for(int i=0;i<4;i++){
 			for(int j=0;j<4;j++){
