@@ -1,7 +1,7 @@
 #include<bits/stdc++.h>
 using namespace std;
-int dx[9] = {1, 1, 1, 2, 2, 2, 3, 3, 3};
-int dy[9] = {1, 2, 3, 1, 2, 3, 1, 2, 3};
+int dx[10] = {0, 1, 1, 1, 2, 2, 2, 3, 3, 3};
+int dy[10] = {0, 1, 2, 3, 1, 2, 3, 1, 2, 3};
 int board[800][4][4]={},cnt=1,ma=0, score[800];
 
 void input();
