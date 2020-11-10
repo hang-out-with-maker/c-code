@@ -104,7 +104,6 @@ void input(){
 			cout << "Player 2의 승리! 다시하시겠습니까? Y/N : ";
 			re();
 		}
-		cnt1=0;
 		if(cnt%2!=0) cout << "Player 1의 착수위치를 입력해주세요: ";
 		else cout << "Player 2의 착수위치를 입력해주세요: ";
 		while(1){
