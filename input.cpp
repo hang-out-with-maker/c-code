@@ -42,7 +42,7 @@ void re(){ //다시하기 입력받는 함수
 		puts("3 - - -");
 		for(int i=0;i<4;i++){
 			for(int j=0;j<4;j++){
-				board[i][j]=0;
+				board[0][i][j]=0;
 			}
 		}
 		cnt=1;
@@ -68,6 +68,7 @@ void input(){
 			cout << "무승부 입니다. 다시하시겠습니까? Y/N: ";
       			re();
 		}
+		/*
 		for(int i=1;i<4;i++){									// 승리 판별;
 			if(board[1][i]==1&&board[2][i]==1&&board[3][i]==1){
 				cout << "Player 1의 승리! 다시하시겠습니까? Y/N : ";
@@ -104,11 +105,12 @@ void input(){
 			cout << "Player 2의 승리! 다시하시겠습니까? Y/N : ";
 			re();
 		}
+		*/
 		if(cnt%2!=0) cout << "Player 1의 착수위치를 입력해주세요: ";
 		else cout << "Player 2의 착수위치를 입력해주세요: ";
 		while(1){
 			cin >> x >> y;
-			if(x<0||x>3||y<0||y>3||board[y][x]!=0) cout << "잘못된 입력입니다. 다시 입력해주세요: ";
+			if(x<0||x>3||y<0||y>3||board[0][y][x]!=0) cout << "잘못된 입력입니다. 다시 입력해주세요: ";
 			else break;
 		}
 		if(cnt%2!=0){
@@ -130,9 +132,8 @@ void input(){
 						board[i*9+j][dx[j]][dy[j]] = 1;
 					}
 				}
-			}	
+			}
 		}
-		else board[y][x]=2;         //player2 착수
 		for(int i=0;i<4;i++){
 			for(int j=0;j<4;j++){
 				if(i==0){           //가로줄 번호 출력
@@ -145,9 +146,9 @@ void input(){
 					t++;
 					continue;
 				}
-				if(board[i][j]==0) cout << "- ";
-				else if(board[i][j]==1) cout << "O ";
-				else if(board[i][j]==2) cout << "X ";
+				if(board[0][i][j]==0) cout << "- ";
+				else if(board[0][i][j]==1) cout << "O ";
+				else if(board[0][i][j]==2) cout << "X ";
 			}
 			puts("");
 		}
