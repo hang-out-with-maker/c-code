@@ -1,8 +1,64 @@
-#include <stdio.h>
 
-int board[800][3][3];		//¿À¸ñ º¸µåÆÇ(2¼ö ¾Õ±îÁö º½) 
-bool memo[800];			//¹æ¹® Ã¼Å© 
+int sc(int index){		//í‰ê°€í•¨ìˆ˜ í”Œë ˆì´ì–´ ì—ê²Œ ìœ ë¦¬í• ë•ŒëŠ” ì–‘ìˆ˜, AIì—ê²Œ ìœ ë¦¬í• ë•ŒëŠ” ìŒìˆ˜
+    int temp=0,s=0,row=3;
 
-int main(){
-	
+    for(int j=1;j<=3;j++){
+        for(int i=1;i<=3;i++){
+            if(board[index][i][j]==1) temp++;
+        }
+        if(temp==2) s -= 1000000;
+        else if(temp==1) s -= 1;
+    }
+    for(int j=1;j<=3;j++){
+        for(int i=1;i<=3;i++){
+            if(board[index][j][i]==1) temp++;
+        }
+        if(temp==2) s -= 1000000;
+        else if(temp==1) s -= 1;
+    }
+
+    for(int i=1;i<=3;i++){
+        if(board[index][i][i]==1) temp++;
+    }
+    if(temp==2) s -= 1000000;
+    else if(temp==1) s -= 1;
+
+    row=3;
+    for(int i=1;i<=3;i++){
+        if(board[index][i][row--]==1) temp++;
+    }
+    if(temp==2) s -= 1000000;
+    else if(temp==1) s -= 1;
+
+
+
+    for(int j=1;j<=3;j++){
+        for(int i=1;i<=3;i++){
+            if(board[index][i][j]==2) temp++;
+        }
+        if(temp==2) s += 1000000;
+        else if(temp==1) s += 1;
+    }
+    for(int j=1;j<=3;j++){
+        for(int i=1;i<=3;i++){
+            if(board[index][j][i]==2) temp++;
+        }
+        if(temp==2) s += 1000000;
+        else if(temp==1) s += 1;
+    }
+
+    for(int i=1;i<=3;i++){
+        if(board[index][i][i]==1) temp++;
+    }
+    if(temp==2) s += 1000000;
+    else if(temp==1) s += 1;
+
+    row=3;
+    for(int i=1;i<=3;i++){
+        if(board[index][i][row--]==1) temp++;
+    }
+    if(temp==2) s += 1000000;
+    else if(temp==1) s += 1;
+
+    return s;
 }
