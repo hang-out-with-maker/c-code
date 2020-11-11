@@ -7,7 +7,34 @@ int board[900][4][4]={},cnt=1,ma=0, score[900];
 void input();
 
 int tree(void){
-	
+	int i, temp = -1, s;
+	for(i = 91; i <= 819; i++){
+		if(score[i/9] == -1000000){
+			i += 8;
+		}
+		if(score[i] != -1000000){
+			score[i/9] = max(score[i/9], score[i]);
+		}
+	}
+	for(i = 10; i <= 90; i++){
+		if(score[i/9] == -1000000){
+			i += 8;
+		}
+		if(score[i] != -1000000){
+			score[i/9] = min(score[i/9], score[i]);
+		}
+	}
+	s = score[1];
+	for(i = 1; i <= 9; i++){
+		
+		if(score[i] != -1000000){
+			if(score[i] >= s){
+				temp = i;
+				s = score[i];
+			}
+		}
+	}
+	return temp;
 }
 
 int sc(int index){		//평가함수 플레이어 에게 유리할때는 양수, AI에게 유리할때는 음수 
@@ -248,7 +275,10 @@ void input(){
 				}
 			}
 		}
-		
+		int temp = tree();
+		printf("temp : %d\n", temp);
+		board[0][dx[temp]][dy[temp]] = 2;
+		cnt++;
 		for(int i=0;i<4;i++){
 			for(int j=0;j<4;j++){
 				if(i==0){           //가로줄 번호 출력
