@@ -11,7 +11,7 @@ int tree(void){
 }
 
 int sc(int index){		//평가함수 플레이어 에게 유리할때는 양수, AI에게 유리할때는 음수 
-	int i, j, s = 0; 
+	int i, j, s = 0,temp; 
 	for(i = 1; i <= 3; i++){
 		temp = 0;
 		for(j = 1; j <= 3; j++){
