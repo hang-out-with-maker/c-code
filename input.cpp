@@ -6,6 +6,131 @@ int board[800][4][4]={},cnt=1,ma=0, score[800];
 
 void input();
 
+int score(int index){		//평가함수
+	int i, j, s = 0; 
+	for(i = 1; i <= 3; i++){
+		temp = 0;
+		for(j = 1; j <= 3; j++){
+			if(board[index][i][j] == 1){
+				temp++;
+			}
+		}
+		if(temp == 3){
+			s += 10000;
+		}
+		else if(temp == 2){
+			s += 100;
+		}
+		else{
+			s += 1;
+		}
+		temp = 0;
+		for(j = 1; j <= 3; j++){
+			if(board[index][j][i] == 1){
+				temp++;
+			}
+		}
+		if(temp == 3){
+			s += 10000;
+		}
+		else if(temp == 2){
+			s += 100;
+		}
+		else{
+			s += 1;
+		}
+	}
+	for(i = 1; i <= 3; i++){
+		temp = 0;
+		for(j = 1; j <= 3; j++){
+			if(board[index][i][j] == 2){
+				temp++;
+			}
+		}
+		if(temp == 3){
+			s -= 10000;
+		}
+		else if(temp == 2){
+			s -= 100;
+		}
+		else{
+			s -= 1;
+		}
+		temp = 0;
+		for(j = 1; j <= 3; j++){
+			if(board[index][j][i] == 1){
+				temp++;
+			}
+		}
+		if(temp == 3){
+			s -= 10000;
+		}
+		else if(temp == 2){
+			s -= 100;
+		}
+		else{
+			s -= 1;
+		}
+	}
+	for(i = 1; i <= 3; i++){
+		temp = 0;
+		if(board[index][i][i] == 1){
+			temp ++;
+		}
+		if(temp == 3){
+			s += 10000;
+		}
+		else if(temp == 2){
+			s += 100;
+		}
+		else{
+			s += 1;
+		}
+		temp = 0;
+		if(board[index][i][4-i] == 1){
+			temp ++;
+		}
+		if(temp == 3){
+			s += 10000;
+		}
+		else if(temp == 2){
+			s += 100;
+		}
+		else{
+			s += 1;
+		}
+	}
+	for(i = 1; i <= 3; i++){
+		temp = 0;
+		if(board[index][i][i] == 2){
+			temp ++;
+		}
+		if(temp == 3){
+			s -= 10000;
+		}
+		else if(temp == 2){
+			s -= 100;
+		}
+		else{
+			s -= 1;
+		}
+		temp = 0;
+		if(board[index][i][4-i] == 2){
+			temp ++;
+		}
+		if(temp == 3){
+			s -= 10000;
+		}
+		else if(temp == 2){
+			s -= 100;
+		}
+		else{
+			s -= 1;
+		}
+		return s;
+	}
+}
+
 void copy(int a, int b){	//b 보드에 a보드를 복사함  
 	int i, j;
 	for(i = 1; i <= 3; i++){
