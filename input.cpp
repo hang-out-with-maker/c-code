@@ -221,7 +221,7 @@ void input(){
 				}
 				else{
 					board[i][dx[i]][dy[i]] = 2;
-					score[i] = sc[i];
+					score[i] = sc(i);
 					for(int j = 1; j <= 9; j++){
 						copy(i, i*9+j);
 						if(board[i*9+i][dx[j]][dy[j]] != 0){		//이미 돌이 있는 경우 
