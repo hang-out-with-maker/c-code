@@ -228,7 +228,7 @@ void input(){
 		if(cnt%2!=0) cout << "Player 1의 착수위치를 입력해주세요: ";
 		else cout << "Player 2의 착수위치를 입력해주세요: ";
 		while(1){
-			cin >> x >> y;
+			cin >> y >> x;
 			if(x<0||x>3||y<0||y>3||board[0][y][x]!=0) cout << "잘못된 입력입니다. 다시 입력해주세요: ";
 			else break;
 		}
