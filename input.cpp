@@ -2,11 +2,15 @@
 using namespace std;
 int dx[10] = {0, 1, 1, 1, 2, 2, 2, 3, 3, 3};
 int dy[10] = {0, 1, 2, 3, 1, 2, 3, 1, 2, 3};
-int board[800][4][4]={},cnt=1,ma=0, score[800];
+int board[900][4][4]={},cnt=1,ma=0, score[900];
 
 void input();
 
-int score(int index){		//평가함수
+int tree(void){
+	
+}
+
+int sc(int index){		//평가함수 플레이어 에게 유리할때는 양수, AI에게 유리할때는 음수 
 	int i, j, s = 0; 
 	for(i = 1; i <= 3; i++){
 		temp = 0;
@@ -139,6 +143,7 @@ void copy(int a, int b){	//b 보드에 a보드를 복사함
 		}
 	}
 }
+
 void title(){ //타이틀
   ma++;
   system("cls");
@@ -193,44 +198,6 @@ void input(){
 			cout << "무승부 입니다. 다시하시겠습니까? Y/N: ";
       			re();
 		}
-		/*
-		for(int i=1;i<4;i++){									// 승리 판별;
-			if(board[1][i]==1&&board[2][i]==1&&board[3][i]==1){
-				cout << "Player 1의 승리! 다시하시겠습니까? Y/N : ";
-				re();
-			}
-			if(board[1][i]==2&&board[2][i]==2&&board[3][i]==2){
-				cout << "Player 2의 승리! 다시하시겠습니까? Y/N : ";
-				re();
-			}
-		}
-		for(int i=1;i<4;i++){
-			if(board[i][1]==1&&board[i][2]==1&&board[i][3]==1){
-				cout << "Player 1의 승리! 다시하시겠습니까? Y/N : ";
-				re();
-			}
-			if(board[i][1]==2&&board[i][2]==2&&board[i][3]==2){
-				cout << "Player 2의 승리! 다시하시겠습니까? Y/N : ";
-				re();
-			}
-		}
-		if(board[1][1]==1&&board[2][2]==1&&board[3][3]==1){
-			cout << "Player 1의 승리! 다시하시겠습니까? Y/N : ";
-			re();
-		}
-		if(board[1][1]==2&&board[2][2]==2&&board[3][3]==2){
-			cout << "Player 2의 승리! 다시하시겠습니까? Y/N : ";
-			re();
-		}
-		if(board[3][1]==1&&board[2][2]==1&&board[1][3]==1){
-			cout << "Player 1의 승리! 다시하시겠습니까? Y/N : ";
-			re();
-		}
-		if(board[3][1]==2&&board[2][2]==2&&board[1][3]==2){
-			cout << "Player 2의 승리! 다시하시겠습니까? Y/N : ";
-			re();
-		}
-		*/
 		if(cnt%2!=0) cout << "Player 1의 착수위치를 입력해주세요: ";
 		else cout << "Player 2의 착수위치를 입력해주세요: ";
 		while(1){
@@ -239,26 +206,49 @@ void input(){
 			else break;
 		}
 		if(cnt%2!=0){
-			board[0][y][x]=1; //player1 착수, board[0]은 루트노드 
+			board[0][y][x]=1; //player1 착수, board[0]은 루트노드
+			score[0] = sc(0);
 			for(int i = 1; i <= 9; i++){		//경우의 수 트리에 저장 
-				copy(0, i); 
+				copy(0, i);
 				if(board[i][dx[i]][dy[i]] != 0){		//이미 돌이 있는 경우 
-					score[i] = -1;	//나중에 점수 계산(미니맥스 알고리즘)을 사용할때 논외로 빼놓기 위함	
+					score[i] = -1000000;	//나중에 점수 계산(미니맥스 알고리즘)을 사용할때 논외로 빼놓기 위함
+					for(int j = 1; j <= 9; j++){
+						score[i*9+j] = -1000000;
+						for(int k = 1; k <= 9; k++){
+							score[(i*9+j)*9+k] = -1000000;
+						}
+					}
 				}
 				else{
 					board[i][dx[i]][dy[i]] = 2;
-				} 
-				for(int j = 1; j <= 9; j++){
-					copy(i, i*9+j);
-					if(board[i*9+i][dx[j]][dy[j]] != 0){		//이미 돌이 있는 경우 
-						score[i*9+j] = -1;	//나중에 점수 계산(미니맥스 알고리즘)을 사용할때 논외로 빼놓기 위함	
-					}
-					else{
-						board[i*9+j][dx[j]][dy[j]] = 1;
+					score[i] = sc[i];
+					for(int j = 1; j <= 9; j++){
+						copy(i, i*9+j);
+						if(board[i*9+i][dx[j]][dy[j]] != 0){		//이미 돌이 있는 경우 
+							score[i*9+j] = -1;	//나중에 점수 계산(미니맥스 알고리즘)을 사용할때 논외로 빼놓기 위함
+							for(int k = 1; k <= 9; k++){
+								score[(i*9+j)*9+k] = -1000000;
+							}
+						}
+						else{
+							board[i*9+j][dx[j]][dy[j]] = 1;
+							score[i*9+j] = sc(i*9+j);
+							for(int k = 1; k <= 9; k++){
+								copy(i*9+j, (i*9+j)*9+k);
+								if(board[(i*9+j)*9+k][dx[j]][dy[j]] != 0){		//이미 돌이 있는 경우 
+									score[(i*9+j)*9+k] = -1000000;	//나중에 점수 계산(미니맥스 알고리즘)을 사용할때 논외로 빼놓기 위함
+								}
+								else{
+									board[(i*9+j)*9+k][dx[j]][dy[j]] = 2;
+									score[(i*9+j)*9+k] = sc((i*9+j)*9+k);
+								}
+							}
+						}
 					}
 				}
 			}
 		}
+		
 		for(int i=0;i<4;i++){
 			for(int j=0;j<4;j++){
 				if(i==0){           //가로줄 번호 출력
