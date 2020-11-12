@@ -8,6 +8,13 @@ void input();
 
 int tree(void){
 	int i, temp = -1, s;
+	for(i = 1; i <= 9; i++){
+		if(score[i] >= 5000){
+			return i;
+		}
+		printf("%d ", score[i]);
+	}
+	printf("\n");
 	for(i = 91; i <= 819; i++){
 		if(score[i/9] == -1000000){
 			i += 8;
@@ -24,9 +31,8 @@ int tree(void){
 			score[i/9] = min(score[i/9], score[i]);
 		}
 	}
-	s = score[1];
+	s = -1000001;
 	for(i = 1; i <= 9; i++){
-		
 		if(score[i] != -1000000){
 			if(score[i] >= s){
 				temp = i;
@@ -34,43 +40,15 @@ int tree(void){
 			}
 		}
 	}
+	for(i = 1; i <= 9; i++){
+		printf("%d ", score[i]);
+	}
 	return temp;
 }
 
-int sc(int index){		//평가함수 플레이어 에게 유리할때는 양수, AI에게 유리할때는 음수 
+
+int sc(int index){		//평가함수 플레이어 에게 유리할때는 음수, AI에게 유리할때는 양수 
 	int i, j, s = 0,temp; 
-	for(i = 1; i <= 3; i++){
-		temp = 0;
-		for(j = 1; j <= 3; j++){
-			if(board[index][i][j] == 1){
-				temp++;
-			}
-		}
-		if(temp == 3){
-			s += 10000;
-		}
-		else if(temp == 2){
-			s += 100;
-		}
-		else{
-			s += 1;
-		}
-		temp = 0;
-		for(j = 1; j <= 3; j++){
-			if(board[index][j][i] == 1){
-				temp++;
-			}
-		}
-		if(temp == 3){
-			s += 10000;
-		}
-		else if(temp == 2){
-			s += 100;
-		}
-		else{
-			s += 1;
-		}
-	}
 	for(i = 1; i <= 3; i++){
 		temp = 0;
 		for(j = 1; j <= 3; j++){
@@ -79,12 +57,44 @@ int sc(int index){		//평가함수 플레이어 에게 유리할때는 양수, A
 			}
 		}
 		if(temp == 3){
+			s += 10000;
+		}
+		else if(temp == 2){
+			s += 100;
+		}
+		else if(temp == 1){
+			s += 1;
+		}
+		temp = 0;
+		for(j = 1; j <= 3; j++){
+			if(board[index][j][i] == 2){
+				temp++;
+			}
+		}
+		if(temp == 3){
+			s += 10000;
+		}
+		else if(temp == 2){
+			s += 100;
+		}
+		else if(temp == 1){
+			s += 1;
+		}
+	}
+	for(i = 1; i <= 3; i++){
+		temp = 0;
+		for(j = 1; j <= 3; j++){
+			if(board[index][i][j] == 1){
+				temp++;
+			}
+		}
+		if(temp == 3){
 			s -= 10000;
 		}
 		else if(temp == 2){
 			s -= 100;
 		}
-		else{
+		else if(temp == 1){
 			s -= 1;
 		}
 		temp = 0;
@@ -99,68 +109,73 @@ int sc(int index){		//평가함수 플레이어 에게 유리할때는 양수, A
 		else if(temp == 2){
 			s -= 100;
 		}
-		else{
+		else if(temp == 1){
 			s -= 1;
 		}
 	}
+	temp = 0;
 	for(i = 1; i <= 3; i++){
-		temp = 0;
-		if(board[index][i][i] == 1){
-			temp ++;
-		}
-		if(temp == 3){
-			s += 10000;
-		}
-		else if(temp == 2){
-			s += 100;
-		}
-		else{
-			s += 1;
-		}
-		temp = 0;
-		if(board[index][i][4-i] == 1){
-			temp ++;
-		}
-		if(temp == 3){
-			s += 10000;
-		}
-		else if(temp == 2){
-			s += 100;
-		}
-		else{
-			s += 1;
-		}
-	}
-	for(i = 1; i <= 3; i++){
-		temp = 0;
 		if(board[index][i][i] == 2){
 			temp ++;
 		}
-		if(temp == 3){
-			s -= 10000;
-		}
-		else if(temp == 2){
-			s -= 100;
-		}
-		else{
-			s -= 1;
-		}
-		temp = 0;
+	}
+	if(temp == 3){
+		s += 10100;
+	}
+	else if(temp == 2){
+		s += 110;
+	}
+	else if(temp == 1){
+		s += 2;
+	}
+	temp = 0;
+	for(i = 1; i <= 3; i++){
 		if(board[index][i][4-i] == 2){
 			temp ++;
 		}
-		if(temp == 3){
-			s -= 10000;
-		}
-		else if(temp == 2){
-			s -= 100;
-		}
-		else{
-			s -= 1;
-		}
-		return s;
 	}
+	if(temp == 3){
+		s += 10100;
+	}
+	else if(temp == 2){
+		s += 110;
+	}
+	else if(temp == 1){
+		s += 2;
+	}
+	temp = 0;
+	for(i = 1; i <= 3; i++){
+		if(board[index][i][i] == 1){
+			temp ++;
+		}
+	}
+	if(temp == 3){
+		s -= 10300;
+	}
+	else if(temp == 2){
+		s -= 230;
+	}
+	else if(temp == 1){
+		s -= 2;
+	}
+	temp = 0;
+	for(i = 1; i <= 3; i++){
+		if(board[index][i][4-i] == 1){
+			temp ++;
+		}
+	}
+	if(temp == 3){
+		s -= 10300;
+	}
+	else if(temp == 2){
+		s -= 230;
+	}
+	else if(temp == 1){
+		s -= 2;
+	}
+	return s;	
 }
+
 
 void copy(int a, int b){	//b 보드에 a보드를 복사함  
 	int i, j;
