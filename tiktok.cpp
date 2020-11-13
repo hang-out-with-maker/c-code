@@ -113,61 +113,65 @@ int sc(int index){		//평가함수 플레이어 에게 유리할때는 음수, A
 			s -= 1;
 		}
 	}
+	temp = 0;
 	for(i = 1; i <= 3; i++){
-		temp = 0;
 		if(board[index][i][i] == 2){
 			temp ++;
 		}
-		if(temp == 3){
-			s += 10000;
-		}
-		else if(temp == 2){
-			s += 100;
-		}
-		else if(temp == 1){
-			s += 1;
-		}
-		temp = 0;
+	}
+	if(temp == 3){
+		s += 10100;
+	}
+	else if(temp == 2){
+		s += 110;
+	}
+	else if(temp == 1){
+		s += 2;
+	}
+	temp = 0;
+	for(i = 1; i <= 3; i++){
 		if(board[index][i][4-i] == 2){
 			temp ++;
 		}
-		if(temp == 3){
-			s += 10000;
-		}
-		else if(temp == 2){
-			s += 100;
-		}
-		else if(temp == 1){
-			s += 1;
-		}
 	}
+	if(temp == 3){
+		s += 10100;
+	}
+	else if(temp == 2){
+		s += 110;
+	}
+	else if(temp == 1){
+		s += 2;
+	}
+	temp = 0;
 	for(i = 1; i <= 3; i++){
-		temp = 0;
 		if(board[index][i][i] == 1){
 			temp ++;
 		}
-		if(temp == 3){
-			s -= 10000;
-		}
-		else if(temp == 2){
-			s -= 100;
-		}
-		else if(temp == 1){
-			s -= 1;
-		}
-		temp = 0;
+	}
+	if(temp == 3){
+		s -= 10300;
+	}
+	else if(temp == 2){
+		s -= 230;
+	}
+	else if(temp == 1){
+		s -= 2;
+	}
+	temp = 0;
+	for(i = 1; i <= 3; i++){
 		if(board[index][i][4-i] == 1){
 			temp ++;
 		}
-		if(temp == 3){
-			s -= 10000;
-		}
-		else if(temp == 2){
-			s -= 100;
-		}
-		else if(temp == 1){
-			s -= 1;
-		}
+	}
+	if(temp == 3){
+		s -= 10300;
+	}
+	else if(temp == 2){
+		s -= 230;
+	}
+	else if(temp == 1){
+		s -= 2;
 	}
 	return s;	
 }
@@ -232,9 +236,10 @@ void input(){
 	puts("2 - - -");
 	puts("3 - - -");
 	while(1){
+		printf("cnt : %d \n", cnt);
 		if(cnt==10){
 			cout << "무승부 입니다. 다시하시겠습니까? Y/N: ";
-      			re();
+      		return ;
 		}
 		if(cnt%2!=0) cout << "Player 1의 착수위치를 입력해주세요: ";
 		else cout << "Player 2의 착수위치를 입력해주세요: ";
@@ -246,6 +251,29 @@ void input(){
 		if(cnt%2!=0){
 			board[0][y][x]=1; //player1 착수, board[0]은 루트노드
 			score[0] = sc(0);
+			printf("score : %d \n", score[0]);
+			if(score[0] < -5000){
+				for(int i=0;i<4;i++){
+					for(int j=0;j<4;j++){
+						if(i==0){           //가로줄 번호 출력
+							cout << k << " ";
+							k++;
+							continue;
+						}
+						if(j==0){           //세로줄 번호 출력
+							cout << t << " ";
+							t++;
+							continue;
+						}
+						if(board[0][i][j]==0) cout << "- ";
+						else if(board[0][i][j]==1) cout << "O ";
+						else if(board[0][i][j]==2) cout << "X ";
+					}
+					puts("");
+				}
+				cout << "Player 1의 승리! 다시하시겠습니까? Y/N : ";
+				return ;
+			}
 			for(int i = 1; i <= 9; i++){		//경우의 수 트리에 저장 
 				copy(0, i);
 				if(board[i][dx[i]][dy[i]] != 0){		//이미 돌이 있는 경우 
@@ -287,8 +315,8 @@ void input(){
 			}
 		}
 		int temp = tree();
-		printf("temp : %d\n", temp);
 		board[0][dx[temp]][dy[temp]] = 2;
+		score[0] = sc(0);
 		cnt++;
 		for(int i=0;i<4;i++){
 			for(int j=0;j<4;j++){
@@ -309,6 +337,11 @@ void input(){
 			puts("");
 		}
 		t=1,k=0;
+		printf("score : %d \n", score[0]);
+		if(score[0] > 5000){
+			cout << "AI의 승리! 다시하시겠습니까? Y/N : ";
+			return ;
+		}
 	cnt ++;
 	}
 }
