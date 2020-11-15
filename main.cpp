@@ -8,31 +8,31 @@ void input();
 
 int tree(void){
 	int i, temp = -1, s;
-	for(i = 1; i <= 9; i++){
+	for(i = 1; i <= 24; i++){
 		if(score[i] >= 5000){
 			return i;
 		}
 		printf("%d ", score[i]);
 	}
 	printf("\n");
-	for(i = 91; i <= 819; i++){
-		if(score[i/9] == -1000000){
+	for(i = 25; i <= 600; i++){
+		if(score[i/24] == -1000000){
 			i += 8;
 		}
 		if(score[i] != -1000000){
-			score[i/9] = max(score[i/9], score[i]);
+			score[i/24] = max(score[i/24], score[i]);
 		}
 	}
-	for(i = 10; i <= 90; i++){
-		if(score[i/9] == -1000000){
+	for(i = 601; i <= 14424; i++){
+		if(score[i/24] == -1000000){
 			i += 8;
 		}
 		if(score[i] != -1000000){
-			score[i/9] = min(score[i/9], score[i]);
+			score[i/24] = min(score[i/24], score[i]);
 		}
 	}
 	s = -1000001;
-	for(i = 1; i <= 9; i++){
+	for(i = 1; i <= 24; i++){
 		if(score[i] != -1000000){
 			if(score[i] >= s){
 				temp = i;
@@ -40,153 +40,267 @@ int tree(void){
 			}
 		}
 	}
-	for(i = 1; i <= 9; i++){
+	for(i = 1; i <= 24; i++){
 		printf("%d ", score[i]);
 	}
 	return temp;
 }
 
 
-int sc(int index){		//Æò°¡ÇÔ¼ö ÇÃ·¹ÀÌ¾î ¿¡°Ô À¯¸®ÇÒ¶§´Â À½¼ö, AI¿¡°Ô À¯¸®ÇÒ¶§´Â ¾ç¼ö 
-	int i, j, s = 0,temp; 
-	for(i = 1; i <= 3; i++){
-		temp = 0;
-		for(j = 1; j <= 3; j++){
-			if(board[index][i][j] == 2){
-				temp++;
-			}
-		}
-		if(temp == 3){
-			s += 10000;
-		}
-		else if(temp == 2){
-			s += 100;
-		}
-		else if(temp == 1){
-			s += 1;
-		}
-		temp = 0;
-		for(j = 1; j <= 3; j++){
-			if(board[index][j][i] == 2){
-				temp++;
-			}
-		}
-		if(temp == 3){
-			s += 10000;
-		}
-		else if(temp == 2){
-			s += 100;
-		}
-		else if(temp == 1){
-			s += 1;
-		}
-	}
-	for(i = 1; i <= 3; i++){
-		temp = 0;
-		for(j = 1; j <= 3; j++){
-			if(board[index][i][j] == 1){
-				temp++;
-			}
-		}
-		if(temp == 3){
-			s -= 10000;
-		}
-		else if(temp == 2){
-			s -= 100;
-		}
-		else if(temp == 1){
-			s -= 1;
-		}
-		temp = 0;
-		for(j = 1; j <= 3; j++){
-			if(board[index][j][i] == 1){
-				temp++;
-			}
-		}
-		if(temp == 3){
-			s -= 10000;
-		}
-		else if(temp == 2){
-			s -= 100;
-		}
-		else if(temp == 1){
-			s -= 1;
-		}
-	}
-	temp = 0;
-	for(i = 1; i <= 3; i++){
-		if(board[index][i][i] == 2){
-			temp ++;
-		}
-	}
-	if(temp == 3){
-		s += 10100;
-	}
-	else if(temp == 2){
-		s += 110;
-	}
-	else if(temp == 1){
-		s += 2;
-	}
-	temp = 0;
-	for(i = 1; i <= 3; i++){
-		if(board[index][i][4-i] == 2){
-			temp ++;
-		}
-	}
-	if(temp == 3){
-		s += 10100;
-	}
-	else if(temp == 2){
-		s += 110;
-	}
-	else if(temp == 1){
-		s += 2;
-	}
-	temp = 0;
-	for(i = 1; i <= 3; i++){
-		if(board[index][i][i] == 1){
-			temp ++;
-		}
-	}
-	if(temp == 3){
-		s -= 10300;
-	}
-	else if(temp == 2){
-		s -= 230;
-	}
-	else if(temp == 1){
-		s -= 2;
-	}
-	temp = 0;
-	for(i = 1; i <= 3; i++){
-		if(board[index][i][4-i] == 1){
-			temp ++;
-		}
-	}
-	if(temp == 3){
-		s -= 10300;
-	}
-	else if(temp == 2){
-		s -= 230;
-	}
-	else if(temp == 1){
-		s -= 2;
-	}
-	return s;	
-}
-
-
-void copy(int a, int b){	//b º¸µå¿¡ aº¸µå¸¦ º¹»çÇÔ  
-	int i, j;
+int sc(int index){		//í‰ê°€í•¨ìˆ˜ í”Œë ˆì´ì–´ ì—ê²Œ ìœ ë¦¬í• ë•ŒëŠ” ìŒìˆ˜, AIì—ê²Œ ìœ ë¦¬í• ë•ŒëŠ” ì–‘ìˆ˜ 
+	int i, j, s = 0,temp, tf, sc;
+	printf("%d\n", index);
 	for(i = 1; i <= 10; i++){
-		for(j = 1; j<= 10;j++){
-			board[b][i][j] = board[a][i][j]; 
+		temp = 0;
+		tf = 0;
+		for(j = 1; j <= 10; j++){
+			if(board[index][i][j] == 2){
+				if(tf == 0){
+					tf = 1;
+					 temp = 1;
+				}
+				else{
+					temp++;
+				}
+			}
+			else{
+				if(tf == 1){
+					sc = 1;
+					while(temp--){
+						sc *= 100;
+					}
+					s += sc;
+				}
+			}
+		}
+		if(tf == 1){
+			sc = 1;
+			while(temp--){
+				sc *= 100;
+			}
+			s += sc;
+		}
+		temp = 0;
+		tf = 0;
+		for(j = 1; j <= 10; j++){
+			if(board[index][j][i] == 2){
+				if(tf == 0){
+					tf = 1;
+					 temp = 1;
+				}
+				else{
+					temp++;
+				}
+			}
+			else{
+				if(tf == 1){
+					sc = 1;
+					while(temp--){
+						sc *= 100;
+					}
+					s += sc;
+				}
+			}
+		}
+		if(tf == 1){
+			sc = 1;
+			while(temp--){
+				sc *= 100;
+			}
+			s += sc;
 		}
 	}
+	for(i = 1; i <= 10; i++){
+		tf = 0;
+		temp = 0;
+		for(j = 1; j<= i;j++){
+			if(board[index][11-i][j] == 2){
+				if(tf == 0){
+					tf = 1;
+					 temp = 1;
+				}
+				else{
+					temp++;
+				}
+			}
+			else{
+				if(tf == 1){
+					sc = 1;
+					while(temp--){
+						sc *= 100;
+					}
+					s += sc;
+				}
+			}
+		}
+		if(tf == 1){
+			sc = 1;
+			while(temp--){
+				sc *= 100;
+			}
+			s += sc;
+		}
+		tf = 0;
+		temp = 0;
+		for(j = 1; j<= i;j++){
+			if(board[index][11-i][11-j] == 2){
+				if(tf == 0){
+					tf = 1;
+					 temp = 1;
+				}
+				else{
+					temp++;
+				}
+			}
+			else{
+				if(tf == 1){
+					sc = 1;
+					while(temp--){
+						sc *= 100;
+					}
+					s += sc;
+				}
+			}
+		}
+		if(tf == 1){
+			sc = 1;
+			while(temp--){
+				sc *= 100;
+			}
+			s += sc;
+		}
+	}
+	for(i = 1; i <= 10; i++){
+		temp = 0;
+		tf = 0;
+		for(j = 1; j <= 10; j++){
+			if(board[index][i][j] == 1){
+				if(tf == 0){
+					tf = 1;
+					 temp = 1;
+				}
+				else{
+					temp++;
+				}
+			}
+			else{
+				if(tf == 1){
+					sc = 1;
+					while(temp--){
+						sc *= 100;
+					}
+					s -= sc;
+				}
+			}
+		}
+		if(tf == 1){
+			sc = 1;
+			while(temp--){
+				sc *= 100;
+			}
+			s -= sc;
+		}
+		temp = 0;
+		tf = 0;
+		for(j = 1; j <= 10; j++){
+			if(board[index][j][i] == 1){
+				if(tf == 0){
+					tf = 1;
+					 temp = 1;
+				}
+				else{
+					temp++;
+				}
+			}
+			else{
+				if(tf == 1){
+					sc = 1;
+					while(temp--){
+						sc *= 100;
+					}
+					s -= sc;
+				}
+			}
+		}
+		if(tf == 1){
+			sc = 1;
+			while(temp--){
+				sc *= 100;
+			}
+			s -= sc;
+		}
+	}
+	for(i = 1; i <= 10; i++){
+		tf = 0;
+		temp = 0;
+		for(j = 1; j<= i;j++){
+			if(board[index][11-i][j] == 1){
+				if(tf == 0){
+					tf = 1;
+					 temp = 1;
+				}
+				else{
+					temp++;
+				}
+			}
+			else{
+				if(tf == 1){
+					sc = 1;
+					while(temp--){
+						sc *= 100;
+					}
+					s -= sc;
+				}
+			}
+		}
+		if(tf == 1){
+			sc = 1;
+			while(temp--){
+				sc *= 100;
+			}
+			s += sc;
+		}
+		tf = 0;
+		temp = 0;
+		for(j = 1; j<= i;j++){
+			if(board[index][11-i][11-j] == 1){
+				if(tf == 0){
+					tf = 1;
+					 temp = 1;
+				}
+				else{
+					temp++;
+				}
+			}
+			else{
+				if(tf == 1){
+					sc = 1;
+					while(temp--){
+						sc *= 100;
+					}
+					s -= sc;
+				}
+			}
+		}
+		if(tf == 1){
+			sc = 1;
+			while(temp--){
+				sc *= 100;
+			}
+			s -= sc;
+		}
+	}
+	return s;
 }
 
-void title(){ //Å¸ÀÌÆ²
+
+void copy(int a, int b){	//b ë³´ë“œì— aë³´ë“œë¥¼ ë³µì‚¬í•¨  
+	int i, j;
+	
+	
+}
+
+void title(){ //íƒ€ì´í‹€
   ma++;
   system("cls");
   puts("Tic-Tac-Toe");
@@ -198,17 +312,17 @@ void title(){ //Å¸ÀÌÆ²
     	input();
   	}
     else if(a==2) exit(0);
-  	else cout << "Àß¸øµÈ ÀÔ·ÂÀÔ´Ï´Ù. ´Ù½Ã ÀÔ·ÂÇØÁÖ¼¼¿ä : " ;
+  	else cout << "ì˜ëª»ëœ ì…ë ¥ì…ë‹ˆë‹¤. ë‹¤ì‹œ ì…ë ¥í•´ì£¼ì„¸ìš” : " ;
   }
 }
 
-void re(){ //´Ù½ÃÇÏ±â ÀÔ·Â¹Ş´Â ÇÔ¼ö
+void re(){ //ë‹¤ì‹œí•˜ê¸° ì…ë ¥ë°›ëŠ” í•¨ìˆ˜
 	char a;
 	while(1){
 	cin >> a;
 	if(a=='Y'||a=='y'){
 		system("cls");
-		puts("0 1 2 3");    //Á¦ÀÏÃ³À½ ÆÇ Ãâ·Â
+		puts("0 1 2 3");    //ì œì¼ì²˜ìŒ íŒ ì¶œë ¥
 		puts("1 - - -");
 		puts("2 - - -");
 		puts("3 - - -");
@@ -223,7 +337,7 @@ void re(){ //´Ù½ÃÇÏ±â ÀÔ·Â¹Ş´Â ÇÔ¼ö
 	else if(a=='N'||a=='n'){
 		exit(0);
 	}
-	else cout << "Àß¸øµÈ ÀÔ·ÂÀÔ´Ï´Ù. ´Ù½Ã ÀÔ·ÂÇØÁÖ¼¼¿ä: ";
+	else cout << "ì˜ëª»ëœ ì…ë ¥ì…ë‹ˆë‹¤. ë‹¤ì‹œ ì…ë ¥í•´ì£¼ì„¸ìš”: ";
 	}
 }
 
@@ -245,25 +359,47 @@ void input(){
 	while(1){
 		printf("cnt : %d \n", cnt);
 		if(cnt==10){
-			cout << "¹«½ÂºÎ ÀÔ´Ï´Ù. ´Ù½ÃÇÏ½Ã°Ú½À´Ï±î? Y/N: ";
+			cout << "ë¬´ìŠ¹ë¶€ ì…ë‹ˆë‹¤. ë‹¤ì‹œí•˜ì‹œê² ìŠµë‹ˆê¹Œ? Y/N: ";
       		return ;
 		}
-		if(cnt%2!=0) cout << "Player 1ÀÇ Âø¼öÀ§Ä¡¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä: ";
-		else cout << "Player 2ÀÇ Âø¼öÀ§Ä¡¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä: ";
+		if(cnt%2!=0) cout << "Player 1ì˜ ì°©ìˆ˜ìœ„ì¹˜ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”: ";
+		else cout << "Player 2ì˜ ì°©ìˆ˜ìœ„ì¹˜ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”: ";
 		while(1){
 			cin >> y >> x;
-			if(x<0||x>10||y<0||y>10||board[0][y][x]!=0) cout << "Àß¸øµÈ ÀÔ·ÂÀÔ´Ï´Ù. ´Ù½Ã ÀÔ·ÂÇØÁÖ¼¼¿ä: ";
+			if(x<0||x>10||y<0||y>10||board[0][y][x]!=0) cout << "ì˜ëª»ëœ ì…ë ¥ì…ë‹ˆë‹¤. ë‹¤ì‹œ ì…ë ¥í•´ì£¼ì„¸ìš”: ";
 			else break;
 		}
 		if(cnt%2!=0){
-			board[0][y][x]=1; //player1 Âø¼ö, board[0]Àº ·çÆ®³ëµå
+			board[0][y][x]=1; //player1 ì°©ìˆ˜, board[0]ì€ ë£¨íŠ¸ë…¸ë“œ
 			score[0] = sc(0);
 			for(int i = 1; i <= 24; i++){
 				if(board[i][dx[i]][dy[i]] != 0){
 					score[i] = -1;
+					for(int j = 1; j <= 24; j++){
+						score[i*24+j] = -1;
+						for(int k = 1; k <= 24; k++){
+							score[(i*24+j)*24+k] = -1;
+						}
+					}
 				}
 				else{
 					board[i][dx[i]][dy[i]] = 2;
+					for(int j = 1; j <= 24; j++){
+						if(board[i*24+j][dx[j]][dy[j]] != 0){
+							score[i*24+j] = -1;
+						}
+						else{
+							board[i*24+j][dx[j]][dy[j]] = 1;
+							for(int k = 1; k <= 24; k++){
+								if(board[(i*24+j)*24+k][dx[k]][dy[k]] != 0){
+									score[(i*24+j)*24+k] = -1;
+								}
+								else{
+									board[(i*24+j)*24+k][dx[k]][dy[k]] = 2;
+								}
+							}
+						}
+					}
 				}
 			}
 		}
@@ -273,12 +409,12 @@ void input(){
 		cnt++;
 		for(int i=0;i<10;i++){
 			for(int j=0;j<10;j++){
-				if(i==0){           //°¡·ÎÁÙ ¹øÈ£ Ãâ·Â
+				if(i==0){           //ê°€ë¡œì¤„ ë²ˆí˜¸ ì¶œë ¥
 					cout << k << " ";
 					k++;
 					continue;
 				}
-				if(j==0){           //¼¼·ÎÁÙ ¹øÈ£ Ãâ·Â
+				if(j==0){           //ì„¸ë¡œì¤„ ë²ˆí˜¸ ì¶œë ¥
 					cout << t << " ";
 					t++;
 					continue;
@@ -292,7 +428,7 @@ void input(){
 		t=1,k=0;
 		printf("score : %d \n", score[0]);
 		if(score[0] > 5000){
-			cout << "AIÀÇ ½Â¸®! ´Ù½ÃÇÏ½Ã°Ú½À´Ï±î? Y/N : ";
+			cout << "AIì˜ ìŠ¹ë¦¬! ë‹¤ì‹œí•˜ì‹œê² ìŠµë‹ˆê¹Œ? Y/N : ";
 			return ;
 		}
 	cnt ++;
