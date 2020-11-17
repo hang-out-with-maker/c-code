@@ -2,38 +2,40 @@
 using namespace std;
 int dx[25] = {0, 2, 2, 2, 2, 2, 1, 1, 0, 0, -1, -1, -2, -2, -2, -2, -2, 1, 1, 1, 0, 0, -1, -1, -1};
 int dy[25] = {0, -2, -1, 0, 1, 2, -2, 2, -2, 2,-2, 2, -2, -1, -0, 1, 2, -1, 0, 1, -1, 1, -1, 0, 1};
-int board[14500][16][16]={},cnt=1,ma=0, score[14500];
+int board[14500][16][16]={},cnt=1,ma=0;
+long long int score[14500], im = -10000000000;
+
 
 void input();
 
 int tree(void){
 	int i, temp = -1, s;
 	for(i = 1; i <= 24; i++){
-		if(score[i] >= 5000){
+		if(score[i] >= 50000000){
 			return i;
 		}
 		printf("%d ", score[i]);
 	}
 	printf("\n");
-	for(i = 91; i <= 14425; i++){
-		if(score[i/24] == -1000000){
-			i += 8;
+	for(i = 601; i <= 14425; i++){
+		if(score[i/24] == im){
+			i += 23;
 		}
-		if(score[i] != -1000000){
-			score[i/24] = max(score[i/9], score[i]);
+		if(score[i] != im){
+			score[i/24] = max(score[i/24], score[i]);
 		}
 	}
 	for(i = 25; i <= 600; i++){
-		if(score[i/24] == -1000000){
-			i += 8;
+		if(score[i/24] == im){
+			i += 575;
 		}
-		if(score[i] != -1000000){
-			score[i/9] = min(score[i/9], score[i]);
+		if(score[i] != im){
+			score[i/24] = min(score[i/24], score[i]);
 		}
 	}
-	s = -1000001;
+	s = im -1;
 	for(i = 1; i <= 24; i++){
-		if(score[i] != -1000000){
+		if(score[i] != im){
 			if(score[i] >= s){
 				temp = i;
 				s = score[i];
@@ -49,9 +51,9 @@ int tree(void){
 
 int sc(int index){		//평가함수 플레이어 에게 유리할때는 음수, AI에게 유리할때는 양수 
 	int i, j, s = 0,temp; 
-	for(i = 1; i <= 3; i++){
+	for(i = 1; i <= 15; i++){
 		temp = 0;
-		for(j = 1; j <= 3; j++){
+		for(j = 1; j <= 15; j++){
 			if(board[index][i][j] == 2){
 				temp++;
 			}
@@ -66,7 +68,7 @@ int sc(int index){		//평가함수 플레이어 에게 유리할때는 음수, A
 			s += 1;
 		}
 		temp = 0;
-		for(j = 1; j <= 3; j++){
+		for(j = 1; j <= 15; j++){
 			if(board[index][j][i] == 2){
 				temp++;
 			}
@@ -81,9 +83,9 @@ int sc(int index){		//평가함수 플레이어 에게 유리할때는 음수, A
 			s += 1;
 		}
 	}
-	for(i = 1; i <= 3; i++){
+	for(i = 1; i <= 15; i++){
 		temp = 0;
-		for(j = 1; j <= 3; j++){
+		for(j = 1; j <= 15; j++){
 			if(board[index][i][j] == 1){
 				temp++;
 			}
@@ -98,7 +100,7 @@ int sc(int index){		//평가함수 플레이어 에게 유리할때는 음수, A
 			s -= 1;
 		}
 		temp = 0;
-		for(j = 1; j <= 3; j++){
+		for(j = 1; j <= 15; j++){
 			if(board[index][j][i] == 1){
 				temp++;
 			}
@@ -114,7 +116,7 @@ int sc(int index){		//평가함수 플레이어 에게 유리할때는 음수, A
 		}
 	}
 	temp = 0;
-	for(i = 1; i <= 3; i++){
+	for(i = 1; i <= 15; i++){
 		if(board[index][i][i] == 2){
 			temp ++;
 		}
@@ -129,7 +131,7 @@ int sc(int index){		//평가함수 플레이어 에게 유리할때는 음수, A
 		s += 2;
 	}
 	temp = 0;
-	for(i = 1; i <= 3; i++){
+	for(i = 1; i <= 15; i++){
 		if(board[index][i][4-i] == 2){
 			temp ++;
 		}
@@ -144,7 +146,7 @@ int sc(int index){		//평가함수 플레이어 에게 유리할때는 음수, A
 		s += 2;
 	}
 	temp = 0;
-	for(i = 1; i <= 3; i++){
+	for(i = 1; i <= 15; i++){
 		if(board[index][i][i] == 1){
 			temp ++;
 		}
@@ -159,7 +161,7 @@ int sc(int index){		//평가함수 플레이어 에게 유리할때는 음수, A
 		s -= 2;
 	}
 	temp = 0;
-	for(i = 1; i <= 3; i++){
+	for(i = 1; i <= 15; i++){
 		if(board[index][i][4-i] == 1){
 			temp ++;
 		}
@@ -175,7 +177,6 @@ int sc(int index){		//평가함수 플레이어 에게 유리할때는 음수, A
 	}
 	return s;	
 }
-
 
 void copy(int a, int b){	//b 보드에 a보드를 복사함  
 	int i, j;
@@ -261,20 +262,20 @@ void input(){
 			for(int i = 1; i <= 24; i++){		//경우의 수 트리에 저장 
 				copy(0, i);
 				if(x+dx[i] < 0 || x+dx[i] > 15 || y+dy[i] < 0 || y+dy[i] > 15){
-					score[i] = -1000000;	//나중에 점수 계산(미니맥스 알고리즘)을 사용할때 논외로 빼놓기 위함
+					score[i] = im;	//나중에 점수 계산(미니맥스 알고리즘)을 사용할때 논외로 빼놓기 위함
 					for(int j = 1; j <= 24; j++){
-						score[i*24+j] = -1000000;
+						score[i*24+j] = im;
 						for(int k = 1; k <= 24; k++){
-							score[(i*24+j)*24+k] = -1000000;
+							score[(i*24+j)*24+k] = im;
 						}
 					}
 				}
 				else if(board[i][x + dx[i]][y + dy[i]] != 0){		//이미 돌이 있는 경우 
-					score[i] = -1000000;	//나중에 점수 계산(미니맥스 알고리즘)을 사용할때 논외로 빼놓기 위함
+					score[i] = im;	//나중에 점수 계산(미니맥스 알고리즘)을 사용할때 논외로 빼놓기 위함
 					for(int j = 1; j <= 24; j++){
-						score[i*24+j] = -1000000;
+						score[i*24+j] = im;
 						for(int k = 1; k <= 24; k++){
-							score[(i*24+j)*24+k] = -1000000;
+							score[(i*24+j)*24+k] = im;
 						}
 					}
 				}
@@ -284,15 +285,15 @@ void input(){
 					for(int j = 1; j <= 24; j++){
 						copy(i, i*24+j);
 						if(x+dx[i]+dx[j] < 0 || x+dx[i]+dx[j] > 15 || y+dy[i]+dy[j] < 0 || y+dy[i]+dy[j] > 15){
-							score[i*24+j] = -1;	//나중에 점수 계산(미니맥스 알고리즘)을 사용할때 논외로 빼놓기 위함
+							score[i*24+j] = im;	//나중에 점수 계산(미니맥스 알고리즘)을 사용할때 논외로 빼놓기 위함
 							for(int k = 1; k <= 24; k++){
-								score[(i*24+j)*24+k] = -1000000;
+								score[(i*24+j)*24+k] = im;
 							}
 						}
 						else if(board[i*24+j][x+dx[i]+dx[j]][y+dy[i]+dy[j]] != 0){		//이미 돌이 있는 경우 
-							score[i*24+j] = -1;	//나중에 점수 계산(미니맥스 알고리즘)을 사용할때 논외로 빼놓기 위함
+							score[i*24+j] = im;	//나중에 점수 계산(미니맥스 알고리즘)을 사용할때 논외로 빼놓기 위함
 							for(int k = 1; k <= 24; k++){
-								score[(i*24+j)*24+k] = -1000000;
+								score[(i*24+j)*24+k] = im;
 							}
 						}
 						else{
@@ -300,8 +301,11 @@ void input(){
 							score[i*24+j] = sc(i*24+j);
 							for(int k = 1; k <= 24; k++){
 								copy(i*24+j, (i*24+j)*24+k);
-								if(board[(i*24+j)*24+k][x+dx[i]+dx[j]+dx[k]][y+dy[i]+dy[j]+dy[k]] != 0){		//이미 돌이 있는 경우 
-									score[(i*24+j)*24+k] = -1000000;	//나중에 점수 계산(미니맥스 알고리즘)을 사용할때 논외로 빼놓기 위함
+								if(x+dx[i]+dx[j]+dx[k] > 15 || x+dx[i]+dx[j]+dx[k] < 0 || y+dy[i]+dy[j]+dy[k] > 15 || y+dy[i]+dy[j]+dy[k] < 0){
+									score[(i*24+j)*24+k] = im;	//나중에 점수 계산(미니맥스 알고리즘)을 사용할때 논외로 빼놓기 위함
+								}
+								else if(board[(i*24+j)*24+k][x+dx[i]+dx[j]+dx[k]][y+dy[i]+dy[j]+dy[k]] != 0){		//이미 돌이 있는 경우 
+									score[(i*24+j)*24+k] = im;	//나중에 점수 계산(미니맥스 알고리즘)을 사용할때 논외로 빼놓기 위함
 								}
 								else{
 									board[(i*24+j)*24+k][x+dx[i]+dx[j]+dx[k]][y+dy[i]+dy[j]+dy[k]] = 2;
@@ -334,12 +338,12 @@ void input(){
 		for(int i=0;i<16;i++){
 			for(int j=0;j<16;j++){
 				if(i==0){           //가로줄 번호 출력
-					cout << k << " ";
+					printf("%X ", k);
 					k++;
 					continue;
 				}
 				if(j==0){           //세로줄 번호 출력
-					cout << t << " ";
+					printf("%X ", t);
 					t++;
 					continue;
 				}
