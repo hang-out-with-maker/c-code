@@ -7,7 +7,7 @@
 #define DOWN 1
 #define LEFT 2
 #define RIGHT 3
-#define SPACE 4
+#define ENTER 4
 using namespace std;
 int dx[121] = {0, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -3, -3, -3, -3, -3, -3, -3, -3,
 -3, -3, -3, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0, 0, 0, 0, 0, 0,
@@ -358,7 +358,7 @@ int key(){	//키 입력 함수
 	key=getch();
 	if(key==72) return UP; // 방향키 위 
 	else if(key==80) return DOWN; // 방향키 아래 
-	else if(key==32) return SPACE; // 방향키 스페이스 
+	else if(key==13) return ENTER; // 엔터키 
 } 
 void xy(int x, int y){	// x,y 좌표설정 
 	HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -368,8 +368,8 @@ void xy(int x, int y){	// x,y 좌표설정
 	SetConsoleCursorPosition(consoleHandle, pos);
 }
 void init(){  //크기및 커서 숨기는 설정 
-	system("mode con cols= 56 lines= 20 | title Tic-Tac-Toe");
-	
+	system("title Tic-Tac-Toe");
+	system("mode con cols=92 lines=25"); 
 	HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
 	CONSOLE_CURSOR_INFO ConsoleCursor;
 	ConsoleCursor.bVisible = 0;
@@ -416,7 +416,7 @@ int menuDraw(){	// 선택
 				break;
 			}
 			
-			case SPACE: {
+			case ENTER: {
 				return y-10;
 			}
 		}
@@ -461,7 +461,8 @@ void re(){ //다시하기 입력받는 함수
 	}
 }
 
-void input(){	// 플레이 
+void input(){	// 플레이
+	system("mode con cols=45 lines=17"); // 크기 조절 
     system("cls");
 	int k=0,t=1,cnt1=0,x,y, temp;
 	puts("0 1 2 3 4 5 6 7 8 9 A B C D E F");
