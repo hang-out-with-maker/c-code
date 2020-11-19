@@ -384,7 +384,7 @@ void re(){ //다시하기 입력받는 함수
 void input(){
 	if(ma==0) title();
   system("cls");
-	int k=0,t=1,cnt1=0,x,y;
+	int k=0,t=1,cnt1=0,x,y, temp;
 	puts("0 1 2 3 4 5 6 7 8 9 A B C D E F");
 	puts("1 - - - - - - - - - - - - - - -");
 	puts("2 - - - - - - - - - - - - - - -");
@@ -414,6 +414,7 @@ void input(){
 			else break;
 		}
 		if(cnt%2!=0){
+			temp = -1;
 			board[0][x][y]=1; //player1 착수, board[0]은 루트노드
 			board[0][0][0] = x;
 			board[0][0][1] = y;
@@ -504,7 +505,14 @@ void input(){
 				}
 			}
 		}
-		int temp = tree();
+		for(int i = 1; i <= 120; i++){
+			if(score[i] > 50000000){
+				temp = i;
+			}
+		}
+		if(temp == -1){
+			temp = tree();			
+		}
 		printf("temp : %d    ", temp);
 		for(int i = 0; i <= 120; i++){
 			printf("%lld ", score[i]);
