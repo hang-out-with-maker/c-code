@@ -368,8 +368,8 @@ void xy(int x, int y){	// x,y 좌표설정
 	SetConsoleCursorPosition(consoleHandle, pos);
 }
 void init(){  //크기및 커서 숨기는 설정 
-	system("title Tic-Tac-Toe");
-	system("mode con cols=92 lines=25"); 
+	system("title OMOK BOT");
+	system("mode con cols=53 lines=15"); 
 	HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
 	CONSOLE_CURSOR_INFO ConsoleCursor;
 	ConsoleCursor.bVisible = 0;
@@ -377,22 +377,22 @@ void init(){  //크기및 커서 숨기는 설정
 	SetConsoleCursorInfo(consoleHandle,&ConsoleCursor);
 }
 void titleDraw(){ //타이틀
-	puts("          #######                #######                     #######               ");
- 	puts("             #    #  ####           #      ##    ####           #     ####  ######");
-	puts("             #    # #    #          #     #  #  #    #          #    #    # #      ");
-	puts("             #    # #      #####    #    #    # #      #####    #    #    # #####  ");
-	puts("             #    # #               #    ###### #               #    #    # #      ");
-	puts("             #    # #    #          #    #    # #    #          #    #    # #      ");
-	puts("             #    #  ####           #    #    #  ####           #     ####  ###### ");
+	puts("           #####   #     #   #####   #    # ");
+ 	puts("          #     #  ##   ##  #     #  #   #  ");
+	puts("          #     #  # # # #  #     #  #  #   ");
+	puts("          #     #  #  #  #  #     #  ###    ");
+	puts("          #     #  #     #  #     #  #  #   ");
+	puts("          #     #  #     #  #     #  #   #  ");
+	puts("           #####   #     #   #####   #    # ");
 
 }
 int menuDraw(){	// 선택 
-	int x=41;
+	int x=23;
 	int y=10;
 	xy(x-2,y);
 	printf("> 게임시작");
-	xy(x,y+1);
-	printf(" 종료 ");
+	xy(x,y+2);
+	printf("  종료 ");
 	while(1){
 		int n=key();
 		switch(n){
@@ -400,17 +400,17 @@ int menuDraw(){	// 선택
 				if(y> 10){
 					xy(x-2,y);
 					printf(" ");
-					xy(x-2,--y);
+					xy(x-2,y-=2);
 					printf(">");
 				}
 				break;
 			}
 			
 			case DOWN: {
-				if(y<11){
+				if(y<12){
 					xy(x-2,y);
 					printf(" ");
-					xy(x-2,++y);
+					xy(x-2,y+=2);
 					printf(">");
 				}
 				break;
