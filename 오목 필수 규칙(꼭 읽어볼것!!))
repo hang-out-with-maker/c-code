@@ -228,7 +228,7 @@ int sc(int index){		//평가함수 플레이어(1) 에게 유리할때는 음수
 		}
 		temp = 0; tf = 0;
 		for(j = 1; j <= i; j++){
-			if(board[index][j][i-j+1] == 2){
+			if(board[index][j][i-j+1] == 1){
 				temp++;
 				tf = 1;
 			}
