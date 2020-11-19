@@ -90,14 +90,14 @@ int sc(int index){		//평가함수 플레이어(1) 에게 유리할때는 음수
 			}
 			else{
 				if(tf == 1){
-					s -= AI[temp]*2;
+					s -= AI[temp]*4;
 					if(temp >= 3){
 						if(board[index][i][j] == 2){
-							s += AI[temp]*3/2;
+							s += AI[temp]*2;
 						}
 						if(j-temp-1 > 0){
 							if(board[index][i][j-temp-1] == 2){
-								s += AI[temp]*3/2;
+								s += AI[temp]*2;
 							}
 						}
 					}
@@ -107,7 +107,7 @@ int sc(int index){		//평가함수 플레이어(1) 에게 유리할때는 음수
 			}
 		}
 		if(tf == 1){
-			s -= 2*AI[temp];
+			s -= 4*AI[temp];
 			temp = 0;
 			tf = 0;
 		}
@@ -119,14 +119,14 @@ int sc(int index){		//평가함수 플레이어(1) 에게 유리할때는 음수
 			}
 			else{
 				if(tf == 1){
-					s -= AI[temp]*2;
+					s -= AI[temp]*4;
 					if(temp >= 3){
 						if(board[index][j][i] == 2){
-							s += AI[temp]*3/2;
+							s += AI[temp]*2;
 						}
 						if(j-temp-1 > 0){
 							if(board[index][j-temp-1][i] == 2){
-								s += AI[temp]*3/2;
+								s += AI[temp]*2;
 							}
 						}
 					}					
@@ -223,11 +223,11 @@ int sc(int index){		//평가함수 플레이어(1) 에게 유리할때는 음수
 					s -= AI[temp]*4;
 					if(temp >= 3){
 						if(board[index][16-j][i+1-j] == 2){
-							s += AI[temp]*3;
+							s += AI[temp]*2;
 						}
 						if(i+1-j+temp+1 < 15 && 16-j+temp+1 < 15){
 							if(board[index][i][j] == 2){
-								s += AI[temp]*3;
+								s += AI[temp]*2;
 							}
 						}
 					}
@@ -237,7 +237,7 @@ int sc(int index){		//평가함수 플레이어(1) 에게 유리할때는 음수
 			}
 		}
 		if(tf == 1){
-			s -= AI[temp]*4;
+			s -= AI[temp]*2;
 			temp = 0;
 			tf = 0;
 		}
@@ -249,14 +249,14 @@ int sc(int index){		//평가함수 플레이어(1) 에게 유리할때는 음수
 			}
 			else{
 				if(tf == 1){
-					s -= AI[temp]*2;
+					s -= AI[temp]*4;
 					if(temp >= 3){
 						if(board[index][j][15-i+j] == 2){
-							s += AI[temp]*3;
+							s += AI[temp]*2;
 						}
 						if(15-i+j-temp-1 > 0 && j-temp-1 > 0){
 							if(board[index][j-temp-1][15-i+j-temp-1] == 2){
-								s += AI[temp]*3;
+								s += AI[temp]*2;
 							}
 						}
 					}
@@ -266,7 +266,7 @@ int sc(int index){		//평가함수 플레이어(1) 에게 유리할때는 음수
 			}
 		}
 		if(tf == 1){
-			s -= AI[temp]*4;
+			s -= AI[temp]*2;
 			temp = 0;
 			tf = 0;
 		}		
@@ -283,11 +283,11 @@ int sc(int index){		//평가함수 플레이어(1) 에게 유리할때는 음수
 					s -= AI[temp]*4;
 					if(temp >= 3){
 						if(board[index][16-j][15-i+j] == 2){
-							s += AI[temp]*3;
+							s += AI[temp]*2;
 						}
 						if(15-i+j-temp-1 > 0 && 16-j+temp+1 < 15){
 							if(board[index][i][j] == 2){
-								s += AI[temp]*3;
+								s += AI[temp]*2;
 							}
 						}
 					}
@@ -297,7 +297,7 @@ int sc(int index){		//평가함수 플레이어(1) 에게 유리할때는 음수
 			}
 		}
 		if(tf == 1){
-			s -= AI[temp]*4;
+			s -= AI[temp]*2;
 			temp = 0;
 			tf = 0;
 		}
@@ -312,11 +312,11 @@ int sc(int index){		//평가함수 플레이어(1) 에게 유리할때는 음수
 					s -= AI[temp]*4;
 					if(temp >= 3){
 						if(board[index][j][i+1-j] == 2){
-							s += AI[temp]*3;
+							s += AI[temp]*2;
 						}
 						if(i+1-j+temp+1 < 15 && j-temp-1 > 0){
 							if(board[index][j-temp-1][15-i+j-temp-1] == 2){
-								s += AI[temp]*3;
+								s += AI[temp]*2;
 							}
 						}
 					}
@@ -727,6 +727,11 @@ void input(){
 			}
 		}
 		int temp = tree();
+		printf("temp : %d    ", temp);
+		for(int i = 0; i <= 120; i++){
+			printf("%lld ", score[i]);
+		}
+		printf("\n");
 		board[0][x+dx[temp]][y+dy[temp]] = 2;
 		score[0] = sc(0);
 		cnt++;
