@@ -1,29 +1,32 @@
 #include<bits/stdc++.h>
 using namespace std;
-int dx[25] = {0, 2, 2, 2, 2, 2, 1, 1, 0, 0, -1, -1, -2, -2, -2, -2, -2, 1, 1, 1, 0, 0, -1, -1, -1};
-int dy[25] = {0, -2, -1, 0, 1, 2, -2, 2, -2, 2,-2, 2, -2, -1, -0, 1, 2, -1, 0, 1, -1, 1, -1, 0, 1};
-int board[14500][16][16]={},cnt=1,ma=0;
-long long int score[14500], im = -10000000000, AI[6] = {0, 1, 100, 10000, 1000000, 100000000};
-
+int dx[121];
+int dy[121];
+int board[1742621][16][16]={},cnt=1,ma=0;
+long long int score[1742621], im = -10000000000, AI[6] = {0, 1, 100, 10000, 1000000, 100000000};
 
 void input();
 
 int tree(void){
 	int i, temp = -1, s;
-	printf("\n");
-	for(i = 601; i <= 14425; i++){
-		score[i/24] = max(score[i/24], score[i]);
+	for(i = 120+14401; i <= 1728000+120+14400; i++){
+		if(score[i/120] == im){
+			i+=119;
+			continue;
+		}
+		score[i/120] = max(score[i/120], score[i]);
 	}
-	for(i = 25; i <= 600; i++){
-		score[i/24] = min(score[i/24], score[i]);
+	for(i = 121; i <= 120+14400; i++){
+		if(score[i] == im){
+			continue;
+		}
+		score[i/120] = min(score[i/120], score[i]);
 	}
 	s = im -1;
-	for(i = 1; i <= 24; i++){
-		if(score[i] != im){
-			if(score[i] >= s){
-				temp = i;
-				s = score[i];
-			}
+	for(i = 1; i <= 120; i++){
+		if(score[i] >= s){
+			temp = i;
+			s = score[i];
 		}
 	}
 	return temp;
@@ -598,7 +601,7 @@ void input(){
 			}
 		}
 		int temp = tree();
-		for(int i = 601; i <= 601+23; i++){
+		for(int i = 1; i <= 24; i++){
 			printf("%lld ", score[i]);
 		}
 		printf("temp : %d\n", temp);
