@@ -1,4 +1,13 @@
 #include<bits/stdc++.h>
+#include<windows.h> 
+#include<conio.h>
+
+// 키보드 값 
+#define UP 0
+#define DOWN 1
+#define LEFT 2
+#define RIGHT 3
+#define ENTER 4
 using namespace std;
 int dx[121] = {0, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -3, -3, -3, -3, -3, -3, -3, -3,
 -3, -3, -3, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0, 0, 0, 0, 0, 0,
@@ -8,8 +17,9 @@ int dy[121] = {0, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, -5, -4, -3, -2, -1, 0, 1
 , -3, -2, -1, 0, 1, 2, 3, 4, 5, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, -5, -4, -3, -2, -1, 1, 2, 3, 4, 5, -5, -4, -3,
 -2, -1, 0, 1, 2, 3, 4, 5, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, -5, -4, -3, -2, -1
 , 0, 1, 2, 3, 4, 5, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5};
-int board[1742621][16][16]={},cnt=1,ma=0;
+int board[1742621][16][16]={},cnt=1;
 long long int score[1742621], im = -10000000000, AI[16] = {0, 1, 100, 10000, 1000000, 100000000, 100000000, 100000000, 1000000, 100000000, 100000000, 100000000, 1000000, 100000000, 100000000, 100000000};
+
 
 void input();
 
@@ -416,20 +426,75 @@ void copy(int a, int b){	//b 보드에 a보드를 복사함
 	}
 }
 
-void title(){ //타이틀
-  ma++;
-  system("cls");
-  puts("Tic-Tac-Toe");
-  int a;
-  cout << "1.Start 2.Exit : ";
-  while(1){
-  	cin >> a;
-  	if(a==1){
-    	input();
-  	}
-    else if(a==2) exit(0);
-  	else cout << "잘못된 입력입니다. 다시 입력해주세요 : " ;
-  }
+int key(){	//키 입력 함수 
+	int key;
+	key=getch();
+	if(key==72) return UP; // 방향키 위 
+	else if(key==80) return DOWN; // 방향키 아래 
+	else if(key==13) return ENTER; // 엔터키 
+} 
+void xy(int x, int y){	// x,y 좌표설정 
+	HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+	COORD pos;
+	pos.X = x;
+	pos.Y = y;
+	SetConsoleCursorPosition(consoleHandle, pos);
+}
+void init(){  //크기및 커서 숨기는 설정 
+	system("title OMOK BOT");
+	system("mode con cols=53 lines=15"); 
+	HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+	CONSOLE_CURSOR_INFO ConsoleCursor;
+	ConsoleCursor.bVisible = 0;
+	ConsoleCursor.dwSize = 1;
+	SetConsoleCursorInfo(consoleHandle,&ConsoleCursor);
+}
+void titleDraw(){ //타이틀
+	puts("           #####   #     #   #####   #    # ");
+ 	puts("          #     #  ##   ##  #     #  #   #  ");
+	puts("          #     #  # # # #  #     #  #  #   ");
+	puts("          #     #  #  #  #  #     #  ###    ");
+	puts("          #     #  #     #  #     #  #  #   ");
+	puts("          #     #  #     #  #     #  #   #  ");
+	puts("           #####   #     #   #####   #    # ");
+
+}
+int menuDraw(){	// 선택 
+	int x=23;
+	int y=10;
+	xy(x-2,y);
+	printf("> 게임시작");
+	xy(x,y+2);
+	printf("  종료 ");
+	while(1){
+		int n=key();
+		switch(n){
+			case UP: {
+				if(y> 10){
+					xy(x-2,y);
+					printf(" ");
+					xy(x-2,y-=2);
+					printf(">");
+				}
+				break;
+			}
+			
+			case DOWN: {
+				if(y<12){
+					xy(x-2,y);
+					printf(" ");
+					xy(x-2,y+=2);
+					printf(">");
+				}
+				break;
+			}
+			
+			case ENTER: {
+				return y-10;
+			}
+		}
+		
+	}
 }
 
 void re(){ //다시하기 입력받는 함수
@@ -444,6 +509,22 @@ void re(){ //다시하기 입력받는 함수
 			}
 		}
 		cnt=1;
+		puts("0 1 2 3 4 5 6 7 8 9 A B C D E F");
+		puts("1 - - - - - - - - - - - - - - -");
+		puts("2 - - - - - - - - - - - - - - -");
+		puts("3 - - - - - - - - - - - - - - -");
+		puts("4 - - - - - - - - - - - - - - -");
+		puts("5 - - - - - - - - - - - - - - -");
+		puts("6 - - - - - - - - - - - - - - -");
+		puts("7 - - - - - - - - - - - - - - -");
+		puts("8 - - - - - - - - - - - - - - -");
+		puts("9 - - - - - - - - - - - - - - -");
+		puts("A - - - - - - - - - - - - - - -");
+		puts("B - - - - - - - - - - - - - - -");
+		puts("C - - - - - - - - - - - - - - -");
+		puts("D - - - - - - - - - - - - - - -");
+		puts("E - - - - - - - - - - - - - - -");
+		puts("F - - - - - - - - - - - - - - -");
 		return ;
 	}
 	else if(a=='N'||a=='n'){
@@ -453,9 +534,9 @@ void re(){ //다시하기 입력받는 함수
 	}
 }
 
-void input(){
-	if(ma==0) title();
-  system("cls");
+void input(){	// 플레이
+	system("mode con cols=45 lines=17"); // 크기 조절 
+    system("cls");
 	int k=0,t=1,cnt1=0,x,y, temp;
 	puts("0 1 2 3 4 5 6 7 8 9 A B C D E F");
 	puts("1 - - - - - - - - - - - - - - -");
@@ -474,12 +555,7 @@ void input(){
 	puts("E - - - - - - - - - - - - - - -");
 	puts("F - - - - - - - - - - - - - - -");
 	while(1){
-		if(cnt==10){
-			cout << "무승부 입니다. 다시하시겠습니까? Y/N: ";
-      			re();
-		}
 		if(cnt%2!=0) cout << "Player 1의 착수위치를 입력해주세요: ";
-		else cout << "Player 2의 착수위치를 입력해주세요: ";
 		while(1){
 			cin >> x >> y;
 			if(x<0||x>15||y<0||y>15||board[0][x][y]!=0) cout << "잘못된 입력입니다. 다시 입력해주세요: ";
@@ -585,12 +661,7 @@ void input(){
 		if(temp == -1){
 			temp = tree();			
 		}
-		printf("temp : %d    ", temp);
-		for(int i = 0; i <= 120; i++){
-			printf("%lld ", score[i]);
-		}
-		printf("\n");
-		board[0][x+dx[temp]][y+dy[temp]] = 2;
+		board[0][x+dx[temp]][y+dy[temp]] = 3;
 		score[0] = sc(0);
 		cnt++;
 		for(int i=0;i<16;i++){
@@ -608,17 +679,28 @@ void input(){
 				if(board[0][i][j]==0) cout << "- ";
 				else if(board[0][i][j]==1) cout << "O ";
 				else if(board[0][i][j]==2) cout << "X ";
+				else if(board[0][i][j]==3) cout << "☆";
 			}
 			puts("");
 		}
+		board[0][x+dx[temp]][y+dy[temp]] = 2; 
 		t=1,k=0;
 		cnt ++;
 		if(score[0] > 50000000){
 				printf("AI의 승리입니다!");
+				cout << "다시 하시겠습니까? (Y/N) : ";
 				re(); 
 		}
 	}
 }
 int main(){
-  	input();
+	init();
+	while(1){
+		titleDraw();
+		int code= menuDraw();
+		if(code==0) input();
+		else if(code==1) return 0;
+		system("cls");
+		
+	}
 }
