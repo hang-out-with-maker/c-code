@@ -38,10 +38,10 @@ int tree(void){
 	return temp;
 }
 
-// 평가 함수 고려해야할 것 : 돌 개수, 최근에 둔 돌 근처에 있는 돌 수 
-int sc(int index){		//평가함수 플레이어(1) 에게 유리할때는 음수, AI(2)에게 유리할때는 양수 
-	int i, j, s = 0,temp, tf; 
-	for(i = 1; i <= 15; i++){	//AI기준 가로 세로 연결된 돌 고려 
+// 평가 함수 고려해야할 것 : 돌 개수, 최근에 둔 돌 근처에 있는 돌 수
+int sc(int index){		//평가함수 플레이어(1) 에게 유리할때는 음수, AI(2)에게 유리할때는 양수
+	int i, j, s = 0,temp, tf;
+	for(i = 1; i <= 15; i++){	//AI기준 가로 세로 연결된 돌 고려
 		temp = 0; tf = 0;
 		for(j = 1; j <= 15; j++){
 			if(board[index][i][j] == 2){
@@ -81,7 +81,7 @@ int sc(int index){		//평가함수 플레이어(1) 에게 유리할때는 음수
 			tf = 0;
 		}
 	}
-	for(i = 1; i <= 15; i++){	//플레이어기준 가로 세로 연결된 돌 고려, 플레이어는 인공지능보다 가중치 2 배  
+	for(i = 1; i <= 15; i++){	//플레이어기준 가로 세로 연결된 돌 고려, 플레이어는 인공지능보다 가중치 2 배
 		temp = 0; tf = 0;
 		for(j = 1; j <= 15; j++){
 			if(board[index][i][j] == 1){
@@ -129,7 +129,7 @@ int sc(int index){		//평가함수 플레이어(1) 에게 유리할때는 음수
 								s += AI[temp]*3;
 							}
 						}
-					}					
+					}
 					temp = 0;
 					tf = 0;
 				}
@@ -141,7 +141,7 @@ int sc(int index){		//평가함수 플레이어(1) 에게 유리할때는 음수
 			tf = 0;
 		}
 	}
-	for(i = 1; i <= 15; i++){	//AI기준 대각선 고려(조선 아님) 
+	for(i = 1; i <= 15; i++){	//AI기준 대각선 고려(조선 아님)
 		temp = 0; tf = 0;
 		for(j = 1; j <= i; j++){
 			if(board[index][16-j][i+1-j] == 2){
@@ -169,9 +169,9 @@ int sc(int index){		//평가함수 플레이어(1) 에게 유리할때는 음수
 					tf = 0;
 				}
 			}
-		}		
-	}	
-	for(i = 1; i <= 15; i++){	//AI기준 대각선 고려(조선 아님) 
+		}
+	}
+	for(i = 1; i <= 15; i++){	//AI기준 대각선 고려(조선 아님)
 		temp = 0; tf = 0;
 		for(j = 1; j <= i; j++){
 			if(board[index][16-j][15-i+j] == 2){
@@ -209,9 +209,9 @@ int sc(int index){		//평가함수 플레이어(1) 에게 유리할때는 음수
 			s += AI[temp];
 			temp = 0;
 			tf = 0;
-		}		
+		}
 	}
-	for(i = 1; i <= 15; i++){	//player기준 대각선 고려(조선 아님) 
+	for(i = 1; i <= 15; i++){	//player기준 대각선 고려(조선 아님)
 		temp = 0; tf = 0;
 		for(j = 1; j <= i; j++){
 			if(board[index][16-j][i+1-j] == 1){
@@ -269,9 +269,9 @@ int sc(int index){		//평가함수 플레이어(1) 에게 유리할때는 음수
 			s -= AI[temp]*2;
 			temp = 0;
 			tf = 0;
-		}		
-	}	
-	for(i = 1; i <= 15; i++){	//AI기준 대각선 고려(조선 아님) 
+		}
+	}
+	for(i = 1; i <= 15; i++){	//AI기준 대각선 고려(조선 아님)
 		temp = 0; tf = 0;
 		for(j = 1; j <= i; j++){
 			if(board[index][16-j][15-i+j] == 1){
@@ -329,17 +329,17 @@ int sc(int index){		//평가함수 플레이어(1) 에게 유리할때는 음수
 			s -= AI[temp]*4;
 			temp = 0;
 			tf = 0;
-		}		
+		}
 	}
 	return s;
 }
 
 
-void copy(int a, int b){	//b 보드에 a보드를 복사함  
+void copy(int a, int b){	//b 보드에 a보드를 복사함
 	int i, j;
 	for(i = 1; i <= 15; i++){
 		for(j = 1; j<= 15;j++){
-			board[b][i][j] = board[a][i][j]; 
+			board[b][i][j] = board[a][i][j];
 		}
 	}
 }
@@ -348,15 +348,18 @@ void title(){ //타이틀
   ma++;
   system("cls");
   puts("Tic-Tac-Toe");
-  int a;
+  char a;
   cout << "1.Start 2.Exit : ";
   while(1){
   	cin >> a;
-  	if(a==1){
+  	if(a=='1'){
     	input();
   	}
-    else if(a==2) exit(0);
-  	else cout << "잘못된 입력입니다. 다시 입력해주세요 : " ;
+    else if(a=='2') exit(0);
+  	else if(a!='1'){
+        cout << "잘못된 입력입니다. 다시 입력해주세요 : " ;
+        cin >> a;
+  	}
   }
 }
 
@@ -437,11 +440,11 @@ void input(){
 						else if(board[0][i][j]==2) cout << "X ";
 					}
 					puts("");
-				}				
+				}
 				printf("player의 승리입니다!");
-				re(); 
+				re();
 			}
-			for(int i = 1; i <= 120; i++){		//경우의 수 트리에 저장 
+			for(int i = 1; i <= 120; i++){		//경우의 수 트리에 저장
 				copy(0, i);
 				if(x+dx[i] < 0 || x+dx[i] > 15 || y+dy[i] < 0 || y+dy[i] > 15){
 					score[i] = im;	//나중에 점수 계산(미니맥스 알고리즘)을 사용할때 논외로 빼놓기 위함
@@ -452,7 +455,7 @@ void input(){
 						}
 					}
 				}
-				else if(board[i][x + dx[i]][y + dy[i]] != 0){		//이미 돌이 있는 경우 
+				else if(board[i][x + dx[i]][y + dy[i]] != 0){		//이미 돌이 있는 경우
 					score[i] = im;	//나중에 점수 계산(미니맥스 알고리즘)을 사용할때 논외로 빼놓기 위함
 					for(int j = 1; j <= 120; j++){
 						score[i*120+j] = im;
@@ -474,7 +477,7 @@ void input(){
 								score[(i*120+j)*120+k] = im;
 							}
 						}
-						else if(board[i*120+j][x+dx[i]+dx[j]][y+dy[i]+dy[j]] != 0){		//이미 돌이 있는 경우 
+						else if(board[i*120+j][x+dx[i]+dx[j]][y+dy[i]+dy[j]] != 0){		//이미 돌이 있는 경우
 							score[i*120+j] = im;	//나중에 점수 계산(미니맥스 알고리즘)을 사용할때 논외로 빼놓기 위함
 							for(int k = 1; k <= 120; k++){
 								score[(i*120+j)*120+k] = im;
@@ -490,7 +493,7 @@ void input(){
 								if(x+dx[i]+dx[j]+dx[k] > 15 || x+dx[i]+dx[j]+dx[k] < 0 || y+dy[i]+dy[j]+dy[k] > 15 || y+dy[i]+dy[j]+dy[k] < 0){
 									score[(i*120+j)*120+k] = im;	//나중에 점수 계산(미니맥스 알고리즘)을 사용할때 논외로 빼놓기 위함
 								}
-								else if(board[(i*120+j)*120+k][x+dx[i]+dx[j]+dx[k]][y+dy[i]+dy[j]+dy[k]] != 0){		//이미 돌이 있는 경우 
+								else if(board[(i*120+j)*120+k][x+dx[i]+dx[j]+dx[k]][y+dy[i]+dy[j]+dy[k]] != 0){		//이미 돌이 있는 경우
 									score[(i*120+j)*120+k] = im;	//나중에 점수 계산(미니맥스 알고리즘)을 사용할때 논외로 빼놓기 위함
 								}
 								else{
@@ -511,7 +514,7 @@ void input(){
 			}
 		}
 		if(temp == -1){
-			temp = tree();			
+			temp = tree();
 		}
 		printf("temp : %d    ", temp);
 		for(int i = 0; i <= 120; i++){
@@ -543,7 +546,7 @@ void input(){
 		cnt ++;
 		if(score[0] > 50000000){
 				printf("AI의 승리입니다!");
-				re(); 
+				re();
 		}
 	}
 }
