@@ -547,6 +547,8 @@ void input(){
 		}
 		if(cnt%2!=0){
 			board[0][x][y]=1; //player1 착수, board[0]은 루트노드
+			board[0][0][0] = x;
+			board[0][0][1] = y;
 			score[0] = sc(0);
 			for(int i = 1; i <= 120; i++){		//경우의 수 트리에 저장 
 				copy(0, i);
@@ -570,6 +572,8 @@ void input(){
 				}
 				else{
 					board[i][x+dx[i]][y+dy[i]] = 2;
+					board[i][0][0] = x+dx[i];
+					board[i][0][1] = y+dy[i];
 					score[i] = sc(i);
 					for(int j = 1; j <= 120; j++){
 						copy(i,120*i+j);
@@ -587,6 +591,8 @@ void input(){
 						}
 						else{
 							board[i*120+j][x+dx[i]+dx[j]][y+dy[i]+dy[j]] = 1;
+							board[i*120+j][0][0] = x+dx[i]+dx[j];
+							board[i*120+j][0][1] = y+dy[i]+dy[j];
 							score[i*120+j] = sc(i*120+j);
 							for(int k = 1; k <= 120; k++){
 								copy(i*120+j, (i*120+j)*120+k);
@@ -598,6 +604,8 @@ void input(){
 								}
 								else{
 									board[(i*120+j)*120+k][x+dx[i]+dx[j]+dx[k]][y+dy[i]+dy[j]+dy[k]] = 2;
+									board[(i*120+j)*120+k][0][0] =  x+dx[i]+dx[j]+dx[k];
+									board[(i*120+j)*120+k][0][1] =  y+dy[i]+dy[j]+dy[k];
 									score[(i*120+j)*120+k] = sc((i*120+j)*120+k);
 								}
 							}
