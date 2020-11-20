@@ -534,6 +534,73 @@ void re(){ //다시하기 입력받는 함수
 	}
 }
 
+int sam(int x, int y){
+	int i , j, cnt = 0;
+	if(x-2 > 0 && x+2 < 15){
+		if(board[0][x-1][y] == 1 && board[0][x+1][y] == 1){
+			cnt++;
+		}
+		if(board[0][x-1][y] == 1 && board[0][x-2][y] == 1){
+			cnt++;
+		}
+		if(board[0][x+1][y] == 1 && board[0][x+2][y] == 1){
+			cnt++;
+		}
+	}
+	else if(x-1 > 0 && x + 1 < 15){
+		if(board[0][x-1][y] == 1 && board[0][x+1][y] == 1){
+			cnt++;
+		}
+	}
+	
+	if(y-2 > 0 && y+2 < 15){
+		if(board[0][x][y-1] == 1 && board[0][x][y+1] == 1){
+			cnt++;
+		}
+		if(board[0][x][y-1] == 1 && board[0][x][y-2] == 1){
+			cnt++;
+		}
+		if(board[0][x][y+1] == 1 && board[0][x][y+2] == 1){
+			cnt++;
+		}
+	}
+	else if(y-1 > 0 && y+1 < 15){
+		if(board[0][x][y-1] == 1 && board[0][x][y+1] == 1){
+			cnt++;
+		}
+	}
+	
+	if(x-2 > 0 && x + 2 < 15 && y-2 > 0 && y +2 < 15){
+		if(board[0][x-1][y-1] == 1 && board[0][x+1][y+1] == 1){
+			cnt++;
+		}
+		if(board[0][x-1][y+1] == 1 && board[0][x+1][y-1] == 1){
+			cnt++;
+		}
+		if(board[0][x-1][y-1] == 1 && board[0][x-2][y-2] == 1){
+			cnt++;
+		}
+		if(board[0][x+1][y+1] == 1 && board[0][x+2][y+2] == 1){
+			cnt++;
+		}
+		if(board[0][x+1][y-1] == 1 && board[0][x+2][y-2] == 1){
+			cnt++;
+		}
+		if(board[0][x-1][y+1] == 1 && board[0][x-2][y+2] == 1){
+			cnt++;
+		}		
+	}
+	else if(x-1 > 0 && y-1 > 0 && x+1 < 15 && y+1 < 15){
+		if(board[0][x-1][y-1] == 1 && board[0][x+1][y+1] == 1){
+			cnt++;
+		}
+		if(board[0][x-1][y+1] == 1 && board[0][x+1][y-1] == 1){
+			cnt++;
+		}
+	}
+	return cnt;
+}
+
 void input(){	// 플레이
 	system("mode con cols=45 lines=17"); // 크기 조절 
     system("cls");
@@ -559,6 +626,7 @@ void input(){	// 플레이
 		while(1){
 			cin >> x >> y;
 			if(x<0||x>15||y<0||y>15||board[0][x][y]!=0) cout << "잘못된 입력입니다. 다시 입력해주세요: ";
+			else if(sam(x, y) >= 2) cout << "그 자리에는 둘 수 없습니다. 다시 입력해주세요: ";
 			else break;
 		}
 		if(cnt%2!=0){
