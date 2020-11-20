@@ -681,7 +681,7 @@ void input(){	// 플레이
 				else if(board[0][i][j]==2) cout << "X ";
 				else if(board[0][i][j]==3) 
 				{
-					SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 6);
+					SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 12);
 					cout << "X ";
 					SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
 				}
