@@ -280,7 +280,7 @@ int sc(int index){		//평가함수 플레이어(1) 에게 유리할때는 음수
 			tf = 0;
 		}		
 	}	
-	for(i = 1; i <= 15; i++){	//AI기준 대각선 고려(조선 아님) 
+	for(i = 1; i <= 15; i++){	//player기준 대각선 고려(조선 아님)
 		temp = 0; tf = 0;
 		for(j = 1; j <= i; j++){
 			if(board[index][16-j][15-i+j] == 1){
